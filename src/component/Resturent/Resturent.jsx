@@ -6,27 +6,35 @@ const Restaurant = () => {
   const [searchQuery, setSearchQuery] = useState("");
 
   const renderList = () => {
-    const list = data.filter((restaurant) =>
+    const filteredList = data.filter((restaurant) =>
       restaurant.name.toLowerCase().includes(searchQuery.toLowerCase())
     );
 
-    const mappedArray = list.map((restaurant) => (
+    return filteredList.map((restaurant) => (
       <RestaurantListItem key={restaurant._id.$oid} name={restaurant.name} />
     ));
-
-    return mappedArray;
   };
 
   return (
-    <div>
+    <div className="p-4">
+      {/* Search Input */}
       <input
-        placeholder="search restaurant"
+        className="border border-gray-300 rounded-md py-2 px-4 mb-4 w-full"
+        type="text"
+        placeholder="Search restaurant"
         value={searchQuery}
         onChange={(e) => setSearchQuery(e.target.value)}
       />
 
+      {/* Restaurant List */}
       <section>
-        <ul>{renderList()}</ul>
+        <ul className="space-y-4">
+          {renderList().length > 0 ? (
+            renderList()
+          ) : (
+            <p className="text-gray-500">No restaurants found.</p>
+          )}
+        </ul>
       </section>
     </div>
   );
